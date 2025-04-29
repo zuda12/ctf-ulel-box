@@ -25,7 +25,7 @@ Welcome to **CTF Ulel Box** — a virtual hacking lab designed for fun, learning
 The `.ova` file is **not included in the GitHub repo** due to size limits.  
 You can download zip for the site that will include the whole expirience - mamo project (including `.ova`, both projects, and setup instructions) here:
 
-👉 [📦 Download Full Project (.zip)]((https://mega.nz/file/UVojUTwA#paQTINV7lbrFpcpMiOXQQbi4z6iFor8pORYWnOIFWEg))
+👉 [📦 Download Full Project (.zip)](https://mega.nz/file/UVojUTwA#paQTINV7lbrFpcpMiOXQQbi4z6iFor8pORYWnOIFWEg)
 
 ---
 
