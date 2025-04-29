@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ULEL-box Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/assets/style.css" />
+</head>
+<body>
+  {% if session.get('username') %}
+    <div class="top-bar">
+      <div class="user-info">
+        Logged in as: <strong>{{ session['username'] }}</strong>
+      </div>
+      <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+    </div>
+  {% endif %}
+
+
+  <div class="container">
+    <aside class="sidebar">
+      <h1>🛡️ ULEL-box</h1>
+      <nav>
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('sql_injection') }}">SQL Injection</a>
+        <a href="{{ url_for('reverse_shell') }}">Reverse Shell</a>
+        <a href="{{ url_for('privilege_escalation') }}">Privilege Escalation</a>
+        <a href="{{ url_for('boxes') }}">Boxes</a>
+        <a href="{{ url_for('installations') }}">Installations</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header>
+        <h2>Python Security Challenges</h2>
+      </header>
+
+      <section class="progress">
+        <h3>Progress</h3>
+        <div class="progress-bar" data-progress="0">
+          <div class="bar-fill" id="bar-fill" style="width: 0%;"></div>
+        </div>
+        <p id="progress-text">0 / 4 challenges completed</p>
+      </section>
+
+      <section class="challenge-categories">
+        <h3>Challenge Categories</h3>
+
+        <div class="category">
+          <h4>Injection</h4>
+          <ul>
+            <li>
+              <a href="{{ url_for('sql_injection') }}" class="challenge-btn">
+                SQL Injection: Authentication Bypass
+                <span class="badge easy">E</span>
+                {% if completed.sql_injection %}
+                  <span class="challenge-tick show">✅</span>
+                {% else %}
+                  <span class="challenge-tick">&nbsp;</span> <!-- keeps layout aligned -->
+                {% endif %}
+              </a>
+
+            </li>
+          </ul>
+        </div>
+
+        <div class="category">
+          <h4>Broken Upload</h4>
+          <ul>
+            <li>
+              <a href="{{ url_for('reverse_shell') }}" class="challenge-btn">
+                Reverse Shell: access shell through upload
+                <span class="badge medium">M</span>
+                {% if completed.reverse_shell %}
+                  <span class="challenge-tick show">✅</span>
+                {% else %}
+                  <span class="challenge-tick">&nbsp;</span> <!-- keeps layout aligned -->
+                {% endif %}
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="category">
+          <h4>Host Manipulation</h4>
+          <ul>
+            <li>
+              <a href="{{ url_for('privilege_escalation') }}" class="challenge-btn">
+                Privilege Escalation
+                <span class="badge medium">M</span>
+                {% if completed.privilege_escalation %}
+                  <span class="challenge-tick show">✅</span>
+                {% else %}
+                  <span class="challenge-tick">&nbsp;</span> <!-- keeps layout aligned -->
+                {% endif %}
+              </a>
+            </li>
+          </ul>
+        </div>
+
+      </section>
+    </main>
+  </div>
+
+  <script>
+    function updateProgressBar(challenges, total, value) {
+      const percentage = (value / 10) * 100;
+      const barFill = document.getElementById('bar-fill');
+      const progressText = document.getElementById('progress-text');
+
+
+      barFill.style.width = percentage + "%";
+
+
+
+      progressText.innerText = `${challenges} / 4 challenges completed , ${percentage}%`;
+    }
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+
+      const challengesCompleted = {{challenges}};
+      const totalChallenges = 4;
+      const prog = {{progress}};
+
+
+      updateProgressBar(challengesCompleted, totalChallenges, prog);
+    });
+  </script>
+</body>
+</html>

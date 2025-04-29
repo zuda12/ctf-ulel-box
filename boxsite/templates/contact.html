@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>contact-lebron james</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <link rel="stylesheet" href="/static/assets/css/main.css" />
+    </head>
+    <body class="is-preload">
+
+
+			<nav id="nav">
+				<ul class="container">
+				  <li><a href="/">Home</a></li>
+				  <li><a href="/contact">Contact</a></li>
+
+				  {% if session.get('username') %}
+					{% if session.get('role') == 'admin' %}
+					  <li><a href="/admin">Admin Page</a></li>
+					{% elif session.get('role') == 'user' %}
+					  <li><a href="/welcome_user">User Page</a></li>
+					{% endif %}
+					<li><a href="/logout">Logout ({{ session['username'] }})</a></li>
+				  {% else %}
+					<li><a href="/registration">Register</a></li>
+					<li><a href="/login">Login</a></li>
+				  {% endif %}
+				</ul>
+			</nav>
+
+
+
+			<article id="contact" class="wrapper style4">
+				<div class="container medium">
+					<header>
+						<h2>send me anything in here.</h2>
+						<p>this probably won't help much... eh ;(</p>
+					</header>
+					<div class="row">
+						<div class="col-12">
+							<form method="post" action="#">
+								<div class="row">
+									<div class="col-6 col-12-small">
+										<input type="text" name="name" id="name" placeholder="Name" />
+									</div>
+									<div class="col-6 col-12-small">
+										<input type="text" name="email" id="email" placeholder="Email" />
+									</div>
+									<div class="col-12">
+										<input type="text" name="subject" id="subject" placeholder="Subject" />
+									</div>
+									<div class="col-12">
+										<textarea name="message" id="message" placeholder="Message"></textarea>
+									</div>
+									<div class="col-12">
+										<ul class="actions">
+											<li><input type="submit" value="Send Message" /></li>
+											<li><input type="reset" value="Clear Form" class="alt" /></li>
+										</ul>
+									</div>
+								</div>
+							</form>
+						</div>
+
+					</div>
+
+				</div>
+			</article>
+
+
+
+
+	</body>
+</html>

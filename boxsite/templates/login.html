@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>Login - Lebron James Site</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="/static/assets/css/main.css" />
+</head>
+<body class="is-preload">
+
+
+	<nav id="nav">
+		<ul class="container">
+		  <li><a href="/">Home</a></li>
+		  <li><a href="/contact">Contact</a></li>
+
+		  {% if session.get('username') %}
+			{% if session.get('role') == 'admin' %}
+			  <li><a href="/admin">Admin Page</a></li>
+			{% elif session.get('role') == 'user' %}
+			  <li><a href="/welcome_user">User Page</a></li>
+			{% endif %}
+			<li><a href="/logout">Logout ({{ session['username'] }})</a></li>
+		  {% else %}
+			<li><a href="/registration">Register</a></li>
+			<li><a href="/login">Login</a></li>
+		  {% endif %}
+		</ul>
+	</nav>
+
+
+	<article id="login" class="wrapper style1">
+		<div class="container">
+			<header>
+				<h2>Login to Lebron’s Site</h2>
+				<p>Access your account to see exclusive content.</p>
+			</header>
+
+			<form method="POST" action="/login">
+				<div class="row gtr-50">
+					<div class="col-6 col-12-mobile">
+						<input type="text" name="username" placeholder="Username" required />
+					</div>
+					<div class="col-6 col-12-mobile">
+						<input type="password" name="password" placeholder="Password" required />
+					</div>
+					<div class="col-12">
+						<ul class="actions special">
+							<li><input type="submit" value="Login" /></li>
+						</ul>
+					</div>
+				</div>
+			</form>
+		</div>
+	</article>
+
+</body>
+</html>

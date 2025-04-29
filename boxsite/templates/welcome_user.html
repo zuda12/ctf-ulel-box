@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>Welcome User</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="/static/assets/css/main.css" />
+</head>
+<body class="is-preload">
+
+	<nav id="nav">
+		<ul class="container">
+		  <li><a href="/">Home</a></li>
+		  <li><a href="/contact">Contact</a></li>
+
+		  {% if session.get('username') %}
+			{% if session.get('role') == 'admin' %}
+			  <li><a href="/admin">Admin Page</a></li>
+			{% elif session.get('role') == 'user' %}
+			  <li><a href="/welcome_user">User Page</a></li>
+			{% endif %}
+			<li><a href="/logout">Logout ({{ session['username'] }})</a></li>
+		  {% else %}
+			<li><a href="/registration">Register</a></li>
+			<li><a href="/login">Login</a></li>
+		  {% endif %}
+		</ul>
+	</nav>
+
+	<article id="top" class="wrapper style1">
+		<div class="container">
+			<header>
+				<h1>Welcome, <strong>{{ username }}</strong>!</h1>
+			</header>
+			<p>You're logged in as a regular user. Nothing special to see here.</p>
+		</div>
+	</article>
+
+</body>
+</html>

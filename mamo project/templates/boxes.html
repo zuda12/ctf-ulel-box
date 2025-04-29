@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ULEL-boxes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/assets/style.css" />
+</head>
+<body>
+
+  {% if session.get('username') %}
+    <div class="top-bar">
+      <div class="user-info">
+        Logged in as: <strong>{{ session['username'] }}</strong>
+      </div>
+      <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+    </div>
+  {% endif %}
+
+  <div class="container">
+    <aside class="sidebar">
+      <h1>🛡️ ULEL-box</h1>
+      <nav>
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('sql_injection') }}">SQL Injection</a>
+        <a href="{{ url_for('reverse_shell') }}">Reverse Shell</a>
+        <a href="{{ url_for('privilege_escalation') }}">Privilege Escalation</a>
+        <a href="{{ url_for('boxes') }}">Boxes</a>
+        <a href="{{ url_for('installations') }}">Installations</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header>
+        <h2>Available Pentest Boxes</h2>
+      </header>
+
+
+      <section class="card fade show">
+        <h3>🎯 Mission: Capture the Flag</h3>
+        <p>
+          Your goal: Hack into the Ubuntu machine using SQL Injection ➔ Reverse Shell ➔ Privilege Escalation.<br><br>
+          Find the hidden file: <code>/root/password.txt</code><br><br>
+          Once you have the password, submit it below to verify your success!<br><br>
+          <strong>challenge -></strong> leave no tracks
+        </p>
+      </section>
+
+
+      <section class="card fade show">
+        <h3>🖥️ ULEL Ubuntu Pentest Lab</h3>
+        <p><strong>Difficulty:</strong> ⭐⭐☆☆☆ (Medium)</p>
+        <p><strong>Description:</strong>
+          This vulnerable Ubuntu machine is designed for training on basic hacking techniques including SQL Injection, Reverse Shell, and Privilege Escalation.
+        </p>
+        <div class="form-buttons">
+            <a href="/download_box" class="btn green" download>Download ULEL Pentest Box📦</a>
+        </div>
+      </section>
+
+
+      <section class="card fade show">
+        <h3>🔑 Submit Password</h3>
+        <form class="login-form" method="POST" action="/boxes">
+          <label>Enter the password you found:</label>
+          <input type="text" id="passwordInput" name="passwordInput" placeholder="Paste the password here" required />
+          <div class="form-buttons">
+            <button type="submit" class="btn green">Submit</button>
+          </div>
+          <div id="wrongMsg" class="wrong-msg">❌ Incorrect password. Try again!</div>
+          <div class="important-message" id="important-message">🔁 You’ve already completed this challenge. Try another one!</div>
+        </form>
+        <p id="resultMessage" class="note"></p>
+      </section>
+
+    </main>
+  </div>
+
+  {% if success and finished == False and submitted == True %}
+    <script>
+      window.addEventListener('DOMContentLoaded', () => {
+        const wrong = document.getElementById("wrongMsg");
+        wrong.classList.remove('show');
+        showTrophy();
+      });
+    </script>
+  {% endif %}
+  {% if success == False and finished == False and submitted == True %}
+    <script>
+
+      window.addEventListener('DOMContentLoaded', () => {
+        const result = document.getElementById("wrongMsg");
+        result.classList.add("show");
+      });
+    </script>
+  {% endif %}
+  {% if finished %}
+    <script>
+      const importantMessage = document.getElementById('important-message');
+      importantMessage.style.display = 'block';
+      const wrong = document.getElementById("wrongMsg");
+      wrong.classList.remove('show');
+    </script>
+  {% endif %}
+
+
+
+
+
+  <script>
+
+    function showTrophy() {
+      const trophy = document.getElementById('trophy');
+      trophy.classList.remove('hidden');
+      setTimeout(() => {
+        trophy.classList.add('show');
+      }, 100); // tiny delay to trigger animation
+
+      setTimeout(() => {
+        trophy.classList.remove('show');
+        setTimeout(() => {
+          trophy.classList.add('hidden');
+        }, 500); // after fade out
+      }, 2500); // show for 2.5 seconds
+    }
+  </script>
+
+  <div id="trophy" class="hidden">
+    🏆 Mission Completed! Good job, Hacker!
+  </div>
+</body>
+</html>

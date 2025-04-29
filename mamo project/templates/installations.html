@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ULEL-box Installations</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/assets/style.css" />
+</head>
+<body>
+  {% if session.get('username') %}
+    <div class="top-bar">
+      <div class="user-info">
+        Logged in as: <strong>{{ session['username'] }}</strong>
+      </div>
+      <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+    </div>
+  {% endif %}
+  <div class="container">
+    <aside class="sidebar">
+      <h1>🛡️ ULEL-box</h1>
+      <nav>
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('sql_injection') }}">SQL Injection</a>
+        <a href="{{ url_for('reverse_shell') }}">Reverse Shell</a>
+        <a href="{{ url_for('privilege_escalation') }}">Privilege Escalation</a>
+        <a href="{{ url_for('boxes') }}">Boxes</a>
+        <a href="{{ url_for('installations') }}">Installations</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header>
+        <h2>Setup and Installation</h2>
+      </header>
+
+      <section class="section-buttons">
+        <button class="section-tab active" id="btn-installations">Installations</button>
+        <button class="section-tab" id="btn-guide">Guide</button>
+      </section>
+
+      <section class="section-content">
+        <div class="card fade" id="installations">
+          <h3>📥 Installations: Setting Up the Lab</h3>
+          <ol class="instruction-list">
+            <li>Download and install <strong>VirtualBox</strong> from the official website.</li>
+            <li>Launch VirtualBox and click <strong>"Import Appliance"</strong>.</li>
+            <li>Choose the Ubuntu server OVA file provided.</li>
+            <li>Adjust settings (RAM, CPU) according to your system if needed.</li>
+            <li>Start the machine and ensure it's booting into Ubuntu Server normally.</li>
+            <li>install Ncat from Nmap, for the reverse shells</li>
+          </ol>
+          <p class="note">⚡ Make sure to keep the network settings as NAT or Host-Only depending on your attack setup!</p>
+        </div>
+
+        <div class="card fade" id="guide" style="display: none;">
+          <h3>📚 Guide: How the Challenges Work</h3>
+          <ol class="instruction-list">
+            <li>First, explore the <strong>coding challenges</strong> directly from the website.</li>
+            <li>Try solving challenges like SQL Injection, Reverse Shell, and Privilege Escalation directly in the platform.</li>
+            <li>Once you are comfortable, <strong>download the Ubuntu box</strong> for a full penetration test simulation.</li>
+            <li>The box includes a vulnerable server you will attack just like in a real-world scenario.</li>
+            <li>Follow the same challenge logic — escalate your access until you gain root!</li>
+          </ol>
+          <p class="note">💡 Important: Attempt the coding challenges FIRST. It will prepare you for the full box experience!</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const btnInstallations = document.getElementById('btn-installations');
+    const btnGuide = document.getElementById('btn-guide');
+    const installations = document.getElementById('installations');
+    const guide = document.getElementById('guide');
+
+    btnInstallations.addEventListener('click', () => {
+      installations.style.display = 'block';
+      guide.style.display = 'none';
+
+      setTimeout(() => {
+        installations.classList.add('show');
+        guide.classList.remove('show');
+      }, 10);
+
+      btnInstallations.classList.add('active');
+      btnGuide.classList.remove('active');
+    });
+
+    btnGuide.addEventListener('click', () => {
+      guide.style.display = 'block';
+      installations.style.display = 'none';
+
+      setTimeout(() => {
+        guide.classList.add('show');
+        installations.classList.remove('show');
+      }, 10);
+
+      btnGuide.classList.add('active');
+      btnInstallations.classList.remove('active');
+    });
+
+  </script>
+
+</body>
+</html>
